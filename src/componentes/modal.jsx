@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Link } from 'react-router-dom';
+import SimpleSnackbar from './snackbar';
+import ActionAreaCard from './card';
 
 const style = {
   position: 'absolute',
@@ -18,6 +20,19 @@ const style = {
 };
 
 export default function BasicModal() {
+
+  const imagenParaCard ="https://mujeresconciencia.com/app/uploads/2015/11/lamar1.png"
+  const cuerpoParaCard = "Hedwig Eva Maria Kiesler, conocida como Hedy Lamarr (Viena, 9 de noviembre de 1914n 1​-Casselberry, Florida, 19 de enero de 2000),1​ fue una actriz de cine e inventora austríaca. Inventó la primera versión del espectro ensanchado que permitiría las comunicaciones inalámbricas de largas distancias.2​3"
+    // Ejemplo con useEffect
+    React.useEffect( () => {
+      console.log("Componente Modal montado correctamente")
+      
+      return () => {
+        console.log("Componente Modal desmontado correctamente")
+      }
+
+    },[] )
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,6 +60,12 @@ export default function BasicModal() {
         </Box>
       </Modal>
       <Link to="/">Inicio</Link>
+      <p></p>
+      <br />
+      <SimpleSnackbar duracion={5000} mensaje="mensaje del snackbar enviado desde el componente modal"/>
+      <br />
+      <ActionAreaCard imagen={imagenParaCard} titulo={"Hedy Lamarr"} cuerpo={cuerpoParaCard}/>
+
     </div>
   );
 }

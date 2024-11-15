@@ -2,13 +2,27 @@ import Encabezado from './encabezado';
 import Contenido from './contenido';
 import Footer from './pieDePagina';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 const user = {
   name: 'Hedy Lamarr',
   imageUrl: 'https://mujeresconciencia.com/app/uploads/2015/11/lamar1.png',
   imageSize: 250,
 };
 
+
 function Main() {
+
+    // Ejemplo con useEffect
+    useEffect( () => {
+      console.log("Componente main montado correctamente")
+      
+      return () => {
+        console.log("Componente main desmontado correctamente")
+      }
+
+    },[] )
+    
+
   return (
     <>
     <Encabezado/>
