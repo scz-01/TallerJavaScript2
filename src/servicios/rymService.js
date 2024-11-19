@@ -1,4 +1,4 @@
-export async function getAllCharactesr(url) {
+export async function getAllCharacters(url) {
     return new Promise( (resolve, reject) =>  {
         fetch (url)
         .then( (response) => response.json() )
