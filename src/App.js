@@ -16,6 +16,7 @@ function App() {
         <Route path="/input" element={ <Input/>} />
         <Route path="/modal" element={ <BasicModal/> } />
         <Route path="/rym" element={ <RickAndMorty/> } />
+        <Route path="/ejemploUsoRedux" />
       </Routes>
     </Router>
   );

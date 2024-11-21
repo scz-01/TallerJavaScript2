@@ -5,6 +5,8 @@ import { Box, Modal, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
  
 const CharacterModal = ({character, open, onClose}) => {
     if(!character) return null;
@@ -35,7 +37,7 @@ const CharacterModal = ({character, open, onClose}) => {
         </Modal>
     )
 }
- 
+
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',
     ...theme.typography.body2,
@@ -48,17 +50,23 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
  
  
- 
 export default function RickAndMorty(){
     const [data, setData] = useState([]);
     const [selectedCharacter, setSelectedCharacter] = useState(null);
-    const apiUrl = "https://rickandmortyapi.com/api"
- 
+    const [info, setInfo] = useState(null);
+    const apiUrl = "https://rickandmortyapi.com/api";
+    const fetchMoreData = async (url) => {
+        const response = await getAllCharacters(url);
+        console.log(response);
+        setData(response.results);
+        setInfo(response.info);
+    };
+
     useEffect(() => {
         async function fetchData(){
             const response = await getAllCharacters(`${apiUrl}/character`);
-            console.log(response);
             setData(response.results);
+            setInfo(response.info);
         }
         fetchData();
     }, [])
@@ -91,6 +99,14 @@ export default function RickAndMorty(){
             }
             </Grid>
             </Box>
+
+            <div>
+                <Stack spacing={2} direction="row">
+                     <Button variant="contained" onClick={ () => fetchMoreData(info.prev) } >Pagina Anterior</Button>
+                    <Button variant="contained" onClick={ () => fetchMoreData(info.next) } >Pagina Siguiente</Button>
+                </Stack>
+            </div>
+
             <CharacterModal
                 character={selectedCharacter}
                 open={!!selectedCharacter}
@@ -99,89 +115,3 @@ export default function RickAndMorty(){
         </>
     )
 }
-// import { Box, CardActionArea, Modal, Typography } from "@mui/material";
-// import { useEffect, useState } from "react";
-// import ActionAreaCard from './card';
-// import { getAllCharactesr } from "../servicios/rymService";
-// import Grid from '@mui/material/Grid2';
-// import { experimentalStyled as styled } from '@mui/material/styles';
-// import Paper from '@mui/material/Paper';
-
-// const CharacterModal = ({character, open, onClose}) => {
-//     if(!character) return null;
-
-//     const boxProps = {
-//         position: 'absolute',
-//         top: '0%',
-//         left: '35%',
-//         width: 400,
-//         bgcolor: 'backgroud.paper',
-//         border: '3px solid #0000',
-//         boxShadow: 24,
-//         p: 4
-//     }
-
-//     return(
-//         <Modal open={open} onClose={onClose}>
-//             <Box sx={boxProps}>
-//                 <img src={character.image} width={"100%"}></img>
-//                 <Typography variant="h2" component="h2" >
-//                     {character.name}
-//                 </Typography>
-
-//                 <Typography sx={{mt:2}}>
-//                     Tipo: {character.type}
-//                     Origen: {character.origin.name}
-//                 </Typography>
-//             </Box>
-//         </Modal>
-//     )
-// }
-
-
-// export default function RickAndMorty(){
-//     const [data, setData] = useState([]);
-//     const [selectedCharacter, setSelectedCharacter] = useState(null);
-//     const apiUrl = "https://rickandmortyapi.com/api"
-
-//     useEffect( () => {
-//         async function fetchData(){
-//             const response = await getAllCharactesr(`${apiUrl}/character`);
-//             setData(response.results);
-//             console.log(data)
-//         }
-//         fetchData();
-//     }, [])
-
-//     const handleOpenModal = (character) => {
-//         setSelectedCharacter(character);
-//     }
-
-//     const handleCloseModal = (character) => {
-//         setSelectedCharacter(null)
-//     }
-
-//     return (
-//         <div>
-//             <h1>API DE Rick And Morty</h1>
-//             {
-//                 data.map ( (element) => (
-//                     <>
-//                     <ActionAreaCard 
-//                         imagen = {element.image} 
-//                         titulo = {element.name}
-//                         cuerpo= {`Status: ${element.status} Especie: ${element.species}`}
-//                         onClick = { () => handleOpenModal(element)}
-//                     />
-//                     <br></br>
-//                     </>
-//                 ) )
-//             }
-//             <CharacterModal
-//                 character={selectedCharacter}
-//                 open={!!selectedCharacter}
-//                 onClose={handleCloseModal}
-//             />
-//         </div>
-//     )
-// }
